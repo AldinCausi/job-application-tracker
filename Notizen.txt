@@ -1,0 +1,28 @@
+Was will ich von diesem Projekt:
+Ich will:
+- Notieren, wo ich mich beworben habe.
+- Den Status jeder Bewerbung speichern und anpassen können Unterlagen einsehen können (Lebenslauf, Anschreiben)
+- Bewerbung entfernen
+
+Wie werde ich das lösen:
+Ich kann den Nutzer nach verschiedenen Optionen fragen, wie Bewerbungen anschauen, Unterlagen der Bewerbung anschauen, Status einsehen, Status ändern.
+Dafür benutze ich erstmal print() und input() und mache das alles im terminal anschaubar.
+Mögliche Status: Beworben, Interviewed, Abgelehnt, Angenommen
+
+Hinzufügen
+    Name der Firma und Status,
+    Jobbezeichung
+
+Ansehen:
+    Bestimmte Bewerbung? (Nach Job, Status oder Firma, oder nur ein Job bei einer bestimmten Firma)
+    Alle Bewerbungen?
+
+
+Designentscheidungen:
+    Nach jeder Änderung eine neue Version speichern (in JSON format?)
+    
+    Am Anfang des Programms den Aktuelle Zustand (JSON?) laden 
+    damit arbeitet das Programm weiter
+    => So gehen vorangegangen Einträge nicht verloren, weil die Daten von außerhalb der Funktion kommen
+
+
