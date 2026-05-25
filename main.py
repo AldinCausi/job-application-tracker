@@ -52,5 +52,4 @@ def show_applications():
     print(content)
 
 
-if __name__ == "__main__":
-    menU()
+menU()
