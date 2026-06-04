@@ -129,4 +129,3 @@ if __name__ == "__main__":
         else:
             print("Gib eine Zahl von 1-4 ein.")
             continue
-
