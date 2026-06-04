@@ -22,7 +22,6 @@ def add_application(company, role, status):
         )
     conn.commit()
 
-
 def show_applications():
     clear_screen()
     cursor.execute("SELECT * FROM bewerbungen")
