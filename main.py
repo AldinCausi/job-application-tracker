@@ -1,60 +1,10 @@
-import sqlite3
-import os
-
-def clear_screen():
-    os.system("clear")
+import database
+import utils
 
 
-conn  = sqlite3.connect("bewerbungen.db")
-cursor = conn.cursor()
-
-def create_table():
-    cursor.execute("""CREATE TABLE IF NOT EXISTS bewerbungen (
-                   id INTEGER PRIMARY KEY AUTOINCREMENT,
-                   company TEXT,
-                   role TEXT,
-                   status TEXT)
-                """)
-
-def add_application(company, role, status):
-    cursor.execute(
-        "INSERT INTO bewerbungen(company, role, status) VALUES (?,?,?)", (company, role, status)
-        )
-    conn.commit()
-
-def show_applications():
-    clear_screen()
-    cursor.execute("SELECT * FROM bewerbungen")
-    result = cursor.fetchall()
-
-    if result == []:
-        print("\nKeine Bewerbungen\n")
-    
-    for row in result:
-        print("-" * 20)
-        print(f"ID: {row[0]}")
-        print(f"Company: {row[1]}")
-        print(f"Role: {row[2]}")
-        print(f"Status: {row[3]}")
-
-def delete_byID(id):
-    cursor.execute("DELETE FROM bewerbungen WHERE id = ?", (id,))
-    conn.commit()
-
-def delete_by_company(company):
-    cursor.execute("DELETE FROM bewerbungen WHERE company = ?", (company, ))
-    conn.commit()
-
-def delete_by_role(role):
-    cursor.execute("DELETE FROM bewerbungen WHERE role = ?", (role, ))
-    conn.commit()
-
-def update_status(status, id):
-    cursor.execute("UPDATE bewerbungen SET status = ? WHERE id = ?", (status, id))
-    conn.commit()
 
 if __name__ == "__main__":
-    create_table()
+    database.create_table()
     default_status = "pending"
 
 
@@ -68,21 +18,21 @@ if __name__ == "__main__":
         choice = input("> ")
 
         if choice == "1":
-            clear_screen()
+            database.create_table()
             company = input("> Company: ")
             role = input("> Role: ")
             status = default_status
-            add_application(company, role, status)
+            database.add_application(company, role, status)
 
         elif choice == "2":
 
-            show_applications()
+            database.show_applications()
 
         elif choice == "3":
 
             status_id = int(input("> ID: "))
             new_status = input("> Neuer Status: ")
-            update_status(new_status, status_id)
+            database.update_status(new_status, status_id)
 
         elif choice == "4":
 
@@ -98,23 +48,23 @@ if __name__ == "__main__":
                 if del_choice == "1":
                     
                     application_id = int(input("> ID: "))
-                    delete_byID(application_id)
+                    database.delete_byID(application_id)
                     break
 
                 elif del_choice == "2":
 
                     company_del = input("> Company: ")
-                    delete_by_company(company_del)
+                    database.delete_by_company(company_del)
                     break
 
                 elif del_choice == "3":
 
                     role_del = input("> Role: ")
-                    delete_by_role(role_del)
+                    database.delete_by_role(role_del)
                     break
 
                 elif del_choice == "4":
-                    clear_screen()
+                    database.create_table()
                     break
                 
                 else:
@@ -122,7 +72,7 @@ if __name__ == "__main__":
                     continue
 
         elif choice == "5":
-            conn.close()
+            database.conn.close()
             break
         
         else:
