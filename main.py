@@ -1,7 +1,4 @@
 import database
-import utils
-
-
 
 if __name__ == "__main__":
     database.create_table()
