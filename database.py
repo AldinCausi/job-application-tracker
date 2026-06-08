@@ -11,6 +11,9 @@ def create_table():
                    role TEXT,
                    status TEXT)
                 """)
+    
+def delete_table():
+    cursor.execute("DROP TABLE bewerbungen")
 
 def add_application(company, role, status):
     cursor.execute(

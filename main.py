@@ -1,6 +1,15 @@
 import database
+import sys
 
 if __name__ == "__main__":
+
+    # Das hier erlaubt es dem Nutzer mit einer leeren database zu starten
+    if len(sys.argv) > 1:
+        argument = sys.argv[1]
+        if argument == "1":
+            database.delete_table()
+
+
     database.create_table()
     default_status = "pending"
 
