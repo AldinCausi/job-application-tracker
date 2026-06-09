@@ -7,6 +7,12 @@ Dieses Projekt ist eine einfache Konsolenanwendung zur Verwaltung von Bewerbunge
 * Hinzufügen neuer Bewerbungen
 * Anzeige aller gespeicherten Bewerbungen
 * Aktualisierung des Bewerbungsstatus
+* Validierte Statusübergänge
+  * APPLIED → INTERVIEWED
+  * APPLIED → REJECTED
+  * INTERVIEWED → ACCEPTED
+  * INTERVIEWED → REJECTED
+* Filtern von Bewerbungen nach Status
 * Löschen von Bewerbungen anhand von ID, Unternehmen oder Rolle
 * Persistente Datenspeicherung mittels SQLite
 
