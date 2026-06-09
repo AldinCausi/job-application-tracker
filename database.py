@@ -48,10 +48,16 @@ class Database:
         self.cursor.execute("DELETE FROM bewerbungen WHERE role = ?", (role, ))
         self.conn.commit()
 
+    def get_status(self, id):
+        self.cursor.execute("SELECT status FROM bewerbungen WHERE id = ?", (id, ))
+        result = self.cursor.fetchone()
+        return result[0]
+
     def update_status(self, status, id):
         self.cursor.execute("UPDATE bewerbungen SET status = ? WHERE id = ?", (status, id))
         self.conn.commit()
 
+    # Muss das ändern damit der Nutzer den Status nicht komplett selber eintippen muss
     def show_with_status(self, status):
         utils.clear_screen()
         self.cursor.execute("SELECT * FROM bewerbungen WHERE status = ?", (status, ))
@@ -66,3 +72,15 @@ class Database:
             print(f"Company: {row[1]}")
             print(f"Role: {row[2]}")
             print(f"Status: {row[3]}")
+
+    def get_all_IDs(self):
+        self.cursor.execute("SELECT id FROM bewerbungen")
+        result = self.cursor.fetchall()
+        return [row[0] for row in result]
+
+    def check_if_ID_exists(self, id):
+        all_ids = self.get_all_IDs()
+        if id not in all_ids:
+            return False
+        else:
+            return True

@@ -1,5 +1,6 @@
 from database import Database
 import sys
+from enum import Enum
 
 
 if __name__ == "__main__":
@@ -12,8 +13,28 @@ if __name__ == "__main__":
         db.conn.close()
         sys.exit(0)
 
-    
-    default_status = "applied"
+
+    class Status(Enum):
+        APPLIED = 1
+        INTERVIEWED = 2
+        REJECTED = 3
+        ACCEPTED = 4
+
+        def transitions(self):
+             return {
+                Status.APPLIED: {
+                    Status.INTERVIEWED,
+                    Status.REJECTED 
+                    },
+                Status.INTERVIEWED: {
+                    Status.ACCEPTED,
+                    Status.REJECTED
+                },
+                Status.REJECTED: set(),
+                Status.ACCEPTED: set(),
+            }[self]
+
+    status = Status.APPLIED.name
 
     while True:
         print("\n1. Bewerbung hinzufügen")
@@ -28,17 +49,41 @@ if __name__ == "__main__":
         if choice == "1":
             company = input("> Company: ")
             role = input("> Role: ")
-            db.add_application(company, role, default_status)
+            db.add_application(company, role, status)
 
         elif choice == "2":
             db.show_applications()
 
         elif choice == "3":
-            id = int(input("> ID: "))
-            status = input("> Neuer Status: ")
-            db.update_status(status, id)
+            db.show_applications()
+
+            application_id = int(input("> ID: "))
+
+            if db.check_if_ID_exists(application_id):
+
+                current_status = Status[db.get_status(application_id)]
+
+                allowed_status_changes = list(current_status.transitions())
+
+                if not allowed_status_changes:
+                    print("Dieser Status kann nicht verändert werden.\n")
+                    continue
+                print("Mögliche Statuswechsel: ")
+                for i, status in enumerate(allowed_status_changes, start=1):
+                    print(f"{i}. {status.name}")
+
+                status_choice = int(input("> "))
+
+                new_status = allowed_status_changes[status_choice-1]
+
+                db.update_status(new_status.name, application_id)
+            else:
+                print("Diese ID gehört zu keinem Eintrag.")
+                continue
 
         elif choice == "4":
+            db.show_applications()
+            
             while True:
                 
                 print("\n1. Lösche mit spezifischer ID")
