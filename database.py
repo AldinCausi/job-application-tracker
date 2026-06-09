@@ -73,6 +73,18 @@ class Database:
             print(f"Role: {row[2]}")
             print(f"Status: {row[3]}")
 
+    def get_distinct_status(self):
+        self.cursor.execute("SELECT status, COUNT(*) AS anzahl FROM bewerbungen GROUP BY status ORDER BY status")
+        result = self.cursor.fetchall()
+        return [row[0] for row in result]
+
+    def if_any_status_exists(self):
+        existing_status = self.get_distinct_status()
+        if not existing_status:
+            return False
+        else:
+            return True
+
     def get_all_IDs(self):
         self.cursor.execute("SELECT id FROM bewerbungen")
         result = self.cursor.fetchall()

@@ -40,8 +40,8 @@ if __name__ == "__main__":
         print("\n1. Bewerbung hinzufügen")
         print("2. Bewerbungen anzeigen")
         print("3. Status ändern")
-        print("4. Bewerbung löschen")
-        print("5. Filter nach Status")
+        print("4. Filter nach Status")
+        print("5. Bewerbung löschen")
         print("6. Beenden")
 
         choice = input("> ")
@@ -80,8 +80,25 @@ if __name__ == "__main__":
             else:
                 print("Diese ID gehört zu keinem Eintrag.")
                 continue
-
+        
         elif choice == "4":
+            if db.if_any_status_exists():
+
+                existing_status = db.get_distinct_status()
+                print("Vergebene Status: ")
+                for i, status in enumerate(existing_status, start=1):
+                    print(f"{i}. {status}")
+                
+                status_choice = int(input("> "))
+
+                chosen_status = existing_status[status_choice-1]
+
+                db.show_with_status(chosen_status)
+            else:
+                print("Es gibt gerade keine Bewerbungen. Füge erstmal welche hinzu")
+                continue
+
+        elif choice == "5":
             db.show_applications()
             
             while True:
@@ -118,10 +135,6 @@ if __name__ == "__main__":
                 else:
                     print("Gib eine Zahl von 1-4 ein.")
                     continue
-
-        elif choice == "5":
-            status = input("> Status: ")
-            db.show_with_status(status)
 
         elif choice == "6":
             db.conn.close()
