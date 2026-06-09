@@ -35,6 +35,8 @@ class Database:
             print(f"Company: {row[1]}")
             print(f"Role: {row[2]}")
             print(f"Status: {row[3]}")
+            
+        return result
 
     def delete_byID(self, id):
         self.cursor.execute("DELETE FROM bewerbungen WHERE id = ?", (id,))

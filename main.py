@@ -56,44 +56,47 @@ if __name__ == "__main__":
             db.show_applications()
 
         elif choice == "3":
-            db.show_applications()
-            print("Gebe 'b' ein, um zurück zu gehen")
-            application_id = input("> ID: ")
-            
+            bewerbungen = db.show_applications()
+            if bewerbungen:
+                print("Gebe 'b' ein, um zurück zu gehen")
+                application_id = input("> ID: ")
+                
 
-            if application_id == "b":
-                utils.clear_screen()
-                continue
-
-            if db.check_if_ID_exists(int(application_id)):
-
-                current_status = Status[db.get_status(int(application_id))]
-
-                allowed_status_changes = list(current_status.transitions())
-
-                if not allowed_status_changes:
-                    print("Dieser Status kann nicht verändert werden.\n")
+                if application_id == "b":
+                    utils.clear_screen()
                     continue
 
-                print("Mögliche Statuswechsel: ")
-                for i, status in enumerate(allowed_status_changes, start=1):
-                    print(f"{i}. {status.name}")
-                print(f"{i+1}. Zurück")
-                while True:
-                    status_choice = int(input("> "))
-                    if status_choice == len(allowed_status_changes)+1:
-                        utils.clear_screen()
-                        break
-                    if status_choice > len(allowed_status_changes)+1:
-                        print(f"Gebe eine Zahl von 1 - {len(allowed_status_changes)} ein")
-                        continue
-                    
-                    new_status = allowed_status_changes[status_choice-1]
+                if db.check_if_ID_exists(int(application_id)):
 
-                    db.update_status(new_status.name, int(application_id))
-                    break
+                    current_status = Status[db.get_status(int(application_id))]
+
+                    allowed_status_changes = list(current_status.transitions())
+
+                    if not allowed_status_changes:
+                        print("Dieser Status kann nicht verändert werden.\n")
+                        continue
+
+                    print("Mögliche Statuswechsel: ")
+                    for i, status in enumerate(allowed_status_changes, start=1):
+                        print(f"{i}. {status.name}")
+                    print(f"{i+1}. Zurück")
+                    while True:
+                        status_choice = int(input("> "))
+                        if status_choice == len(allowed_status_changes)+1:
+                            utils.clear_screen()
+                            break
+                        if status_choice > len(allowed_status_changes)+1:
+                            print(f"Gebe eine Zahl von 1 - {len(allowed_status_changes)} ein")
+                            continue
+                        
+                        new_status = allowed_status_changes[status_choice-1]
+
+                        db.update_status(new_status.name, int(application_id))
+                        break
+                else:
+                    print("Diese ID gehört zu keinem Eintrag.")
+                    continue
             else:
-                print("Diese ID gehört zu keinem Eintrag.")
                 continue
         
         elif choice == "4":
@@ -121,42 +124,44 @@ if __name__ == "__main__":
                 continue
 
         elif choice == "5":
-            db.show_applications()
-            
-            while True:
-                
-                print("\n1. Lösche mit spezifischer ID")
-                print("2. Lösche alle einer Company")
-                print("3. Lösche alle eines Jobs")
-                print("4. Zurück")
-
-                del_choice = input("> ")
-
-                if del_choice == "1":
+            bewerbungen = db.show_applications()
+            if bewerbungen:
+                while True:
                     
-                    application_id = int(input("> ID: "))
-                    db.delete_byID(application_id)
-                    break
+                    print("\n1. Lösche mit spezifischer ID")
+                    print("2. Lösche alle einer Company")
+                    print("3. Lösche alle eines Jobs")
+                    print("4. Zurück")
 
-                elif del_choice == "2":
+                    del_choice = input("> ")
 
-                    company_del = input("> Company: ")
-                    db.delete_by_company(company_del)
-                    break
+                    if del_choice == "1":
+                        
+                        application_id = int(input("> ID: "))
+                        db.delete_byID(application_id)
+                        break
 
-                elif del_choice == "3":
+                    elif del_choice == "2":
 
-                    role_del = input("> Role: ")
-                    db.delete_by_role(role_del)
-                    break
+                        company_del = input("> Company: ")
+                        db.delete_by_company(company_del)
+                        break
 
-                elif del_choice == "4":
-                    db.create_table()
-                    break
-                
-                else:
-                    print("Gib eine Zahl von 1-4 ein.")
-                    continue
+                    elif del_choice == "3":
+
+                        role_del = input("> Role: ")
+                        db.delete_by_role(role_del)
+                        break
+
+                    elif del_choice == "4":
+                        utils.clear_screen()
+                        break
+                    
+                    else:
+                        print("Gib eine Zahl von 1-4 ein.")
+                        continue
+            else:
+                continue
 
         elif choice == "6":
             db.conn.close()
