@@ -1,4 +1,5 @@
 from database import Database
+import utils
 import sys
 from enum import Enum
 
@@ -56,27 +57,41 @@ if __name__ == "__main__":
 
         elif choice == "3":
             db.show_applications()
+            print("Gebe 'b' ein, um zurück zu gehen")
+            application_id = input("> ID: ")
+            
 
-            application_id = int(input("> ID: "))
+            if application_id == "b":
+                utils.clear_screen()
+                continue
 
-            if db.check_if_ID_exists(application_id):
+            if db.check_if_ID_exists(int(application_id)):
 
-                current_status = Status[db.get_status(application_id)]
+                current_status = Status[db.get_status(int(application_id))]
 
                 allowed_status_changes = list(current_status.transitions())
 
                 if not allowed_status_changes:
                     print("Dieser Status kann nicht verändert werden.\n")
                     continue
+
                 print("Mögliche Statuswechsel: ")
                 for i, status in enumerate(allowed_status_changes, start=1):
                     print(f"{i}. {status.name}")
+                print(f"{i+1}. Zurück")
+                while True:
+                    status_choice = int(input("> "))
+                    if status_choice == len(allowed_status_changes)+1:
+                        utils.clear_screen()
+                        break
+                    if status_choice > len(allowed_status_changes)+1:
+                        print(f"Gebe eine Zahl von 1 - {len(allowed_status_changes)} ein")
+                        continue
+                    
+                    new_status = allowed_status_changes[status_choice-1]
 
-                status_choice = int(input("> "))
-
-                new_status = allowed_status_changes[status_choice-1]
-
-                db.update_status(new_status.name, application_id)
+                    db.update_status(new_status.name, int(application_id))
+                    break
             else:
                 print("Diese ID gehört zu keinem Eintrag.")
                 continue
@@ -88,12 +103,19 @@ if __name__ == "__main__":
                 print("Vergebene Status: ")
                 for i, status in enumerate(existing_status, start=1):
                     print(f"{i}. {status}")
-                
-                status_choice = int(input("> "))
+                print(f"{i+1}. Zurück")
+                while True:
+                    status_choice = int(input("> "))
+                    if status_choice == len(existing_status)+1:
+                        utils.clear_screen()
+                        break
+                    if status_choice > len(existing_status)+1:
+                        print(f"Gebe eine Zahl von 1 - {len(existing_status)} ein")
+                        continue
+                    chosen_status = existing_status[status_choice-1]
 
-                chosen_status = existing_status[status_choice-1]
-
-                db.show_with_status(chosen_status)
+                    db.show_with_status(chosen_status)
+                    break
             else:
                 print("Es gibt gerade keine Bewerbungen. Füge erstmal welche hinzu")
                 continue
