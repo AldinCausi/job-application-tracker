@@ -57,6 +57,34 @@ def update_status(db):
         else:
             print(f"Gebe eine zahl von 1-{len(allowed_status_changes)+1} ein")
 
+def filter_show_by_status(db):
+    if not db.if_any_status_exists():
+        print("Es gibt gerade keine Bewerbungen. Füge erstmal welche hinzu")
+        return
+    
+    existing_status = db.get_distinct_status()
+
+    print("Vergebene Status: ")
+    for i, status in enumerate(existing_status, start=1):
+        print(f"{i}. {status}")
+    print(f"{i+1}. Zurück")
+    while True:
+        status_choice  = input("> ")
+        if not status_choice.isdigit():
+            continue
+
+        status_choice = int(status_choice)
+
+        if status_choice == len(existing_status)+1:
+            utils.clear_screen()
+            return
+        if 1 <= status_choice <= len(existing_status):
+            chosen_status = existing_status[status_choice-1]
+            db.show_with_status(chosen_status)
+            return
+        else:
+            print(f"Gebe eine Zahl von 1-{len(existing_status)+1} ein")
+            continue
     
 db = Database()
 
@@ -109,28 +137,7 @@ while True:
         update_status(db)
     
     elif choice == "4":
-        if db.if_any_status_exists():
-
-            existing_status = db.get_distinct_status()
-            print("Vergebene Status: ")
-            for i, status in enumerate(existing_status, start=1):
-                print(f"{i}. {status}")
-            print(f"{i+1}. Zurück")
-            while True:
-                status_choice = int(input("> "))
-                if status_choice == len(existing_status)+1:
-                    utils.clear_screen()
-                    break
-                if status_choice > len(existing_status)+1:
-                    print(f"Gebe eine Zahl von 1 - {len(existing_status)} ein")
-                    continue
-                chosen_status = existing_status[status_choice-1]
-
-                db.show_with_status(chosen_status)
-                break
-        else:
-            print("Es gibt gerade keine Bewerbungen. Füge erstmal welche hinzu")
-            continue
+        filter_show_by_status(db)
 
     elif choice == "5":
         bewerbungen = db.show_applications()
