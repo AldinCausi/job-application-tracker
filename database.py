@@ -50,6 +50,27 @@ class Database:
         self.cursor.execute("DELETE FROM bewerbungen WHERE role = ?", (role, ))
         self.conn.commit()
 
+    def id_exists(self, id):
+        self.cursor.execute("SELECT 1 FROM bewerbungen WHERE id = ?", (id, ))
+        result = self.cursor.fetchall()
+        if not result:
+            return False
+        return True
+
+    def company_exists(self, company):
+        self.cursor.execute("SELECT 1 FROM bewerbungen WHERE company = ?", (company, ))
+        result = self.cursor.fetchall()
+        if not result:
+            return False
+        return True
+    
+    def role_exists(self, role):
+        self.cursor.execute("SELECT 1 FROM bewerbungen WHERE role = ?", (role))
+        result = self.cursor.fetchall()
+        if not result:
+            return False
+        return True
+
     def get_status(self, id):
         self.cursor.execute("SELECT status FROM bewerbungen WHERE id = ?", (id, ))
         result = self.cursor.fetchone()
@@ -87,14 +108,4 @@ class Database:
         else:
             return True
 
-    def get_all_IDs(self):
-        self.cursor.execute("SELECT id FROM bewerbungen")
-        result = self.cursor.fetchall()
-        return [row[0] for row in result]
-
-    def check_if_ID_exists(self, id):
-        all_ids = self.get_all_IDs()
-        if id not in all_ids:
-            return False
-        else:
-            return True
+    
