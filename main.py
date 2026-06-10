@@ -18,15 +18,17 @@ def update_status(db):
 
     if application_id == "b":
         utils.clear_screen()
+        return  
+
+    if not application_id.isdigit():
+        print("Ungültige ID.")
         return
     
     if not db.check_if_ID_exists(int(application_id)):
         print("Diese ID gehört zu keinem Eintrag.")
         return
     
-
     current_status = Status[db.get_status(int(application_id))]
-
     allowed_status_changes = list(current_status.transitions())
 
     if not allowed_status_changes:
@@ -38,14 +40,19 @@ def update_status(db):
         print(f"{i}. {status.name}")
     print(f"{i+1}. Zurück")
     while True:
-        status_choice = int(input("> "))
+        status_choice = input("> ")
+
+        if not status_choice.isdigit():
+            continue
+
+        status_choice = int(status_choice)
 
         if status_choice == len(allowed_status_changes)+1:
             utils.clear_screen()
             return
         if 1 <= status_choice <= len(allowed_status_changes):
             new_status = allowed_status_changes[status_choice-1]
-            db.update_status(new_status.name, int(application_id))
+            db.update_status(new_status.name, application_id)
             return
         else:
             print(f"Gebe eine zahl von 1-{len(allowed_status_changes)+1} ein")
