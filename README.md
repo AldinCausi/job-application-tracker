@@ -45,14 +45,5 @@ Programm starten:
 python main.py
 ```
 
-## Ziel des Projekts
-
-Das Projekt wurde entwickelt, um grundlegende Kenntnisse im Umgang mit relationalen Datenbanken in Python zu vertiefen. Dabei werden insbesondere folgende Konzepte angewendet:
-
-* Datenbankoperationen mit SQLite
-* CRUD-Funktionalitäten (Create, Read, Update, Delete)
-* Strukturierung eines Python-Programms mit Funktionen
-* Entwicklung einer einfachen terminalbasierten Anwendung
-
 ## Beispiel
 ![Beispielbild des Programms im Terminal](images/example.png)
