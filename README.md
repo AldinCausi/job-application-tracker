@@ -55,4 +55,4 @@ Das Projekt wurde entwickelt, um grundlegende Kenntnisse im Umgang mit relationa
 * Entwicklung einer einfachen terminalbasierten Anwendung
 
 ## Beispiel
-![Beispielbild des Programms im Terminal]("images/example.png")
+![Beispielbild des Programms im Terminal](images/example.png)
