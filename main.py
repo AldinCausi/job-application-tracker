@@ -24,7 +24,7 @@ def update_status(db):
         print("Ungültige ID.")
         return
     
-    if not db.check_if_ID_exists(int(application_id)):
+    if not db.id_exists(int(application_id)):
         print("Diese ID gehört zu keinem Eintrag.")
         return
     
@@ -212,3 +212,6 @@ while True:
     elif choice == "6":
         db.conn.close()
         break
+    else:
+        utils.clear_screen()
+        continue
