@@ -53,3 +53,6 @@ Das Projekt wurde entwickelt, um grundlegende Kenntnisse im Umgang mit relationa
 * CRUD-Funktionalitäten (Create, Read, Update, Delete)
 * Strukturierung eines Python-Programms mit Funktionen
 * Entwicklung einer einfachen terminalbasierten Anwendung
+
+## Beispiel
+![Beispielbild des Programms im Terminal]("images/example.png")
