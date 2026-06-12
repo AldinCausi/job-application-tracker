@@ -4,8 +4,15 @@ import sys
 from enum import Enum
 
 def add_application(db, status):
+    print("Gebe 'b' ein, um zurück zu gehen")
     company = input("> Company: ")
+    if(company == "b"):
+        utils.clear_screen()
+        return
     role = input("> Role: ")
+    if(role == "b"):
+        utils.clear_screen()
+        return
     db.add_application(company, role, status)
 
 def update_status(db):
