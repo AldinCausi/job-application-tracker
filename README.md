@@ -44,6 +44,3 @@ Programm starten:
 ```bash
 python main.py
 ```
-
-## Beispiel
-![Beispielbild des Programms im Terminal](images/example.png)
