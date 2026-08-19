@@ -42,5 +42,5 @@ cd <repository-name>
 Programm starten:
 
 ```bash
-python main.py
+python3 main.py
 ```
